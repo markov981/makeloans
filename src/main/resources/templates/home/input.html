@@ -1,0 +1,112 @@
+<!doctype html>
+
+<html>
+<head>
+	<title>Java (!_!) Loans</title>
+	<link rel="stylesheet" href="http://localhost:8080/css/styles.css">
+</head>
+
+<body>
+  {{#noUser}} 
+    <form action="/input"  method="post">
+    
+      <h2>   JavaBank: Apply for Loans Online</h2>
+	  <input id="div1"> 
+      <br>
+      <br>
+	  <label class="ref_lbl"   for="first_name"  >First Name</label>
+	  <input class="ref_inp"   type="text"       name="first_name"    value="{{first_name}}"  required>
+	    <br> 
+	  <label class="ref_lbl"   for="last_name"   >Last Name </label>
+	  <input class="ref_inp"   type="text"       name="last_name"     value="{{last_name}}"   required>
+	    <br> 
+	  <label class="ref_lbl"   for="address"     >Address  </label>
+	  <input class="inpt_long" type="text"       name="address"       value="{{address}}"     required>
+	    <br> 
+	  <label class="ref_lbl"   for="email"       >Email    </label>
+	  <input class="inpt_long" type="text"       name="email"         value="{{email}}"       required>
+	    <br> 
+	  <label class="ref_lbl"   for="ssn"         >SSN</label>         
+	  <input class="ref_inp"   type="text"       name="ssn"           value="{{ssn}}"         required
+	         title="You can enter your SSN as 555-55-5555 or 555555555, we'll figure it out." placeholder="Format: xxx-xx-xxxx">
+	  {{#errorSSN}}
+	        <div id="errorSSN">{{ errorSSN }}</div>
+	  {{/errorSSN}}
+	  	<br> 	  	  	  	  
+  		<br>   		
+      <input id="div1"> 
+ 		<br>
+ 	  <label id="lbl_amnt"" for="requested_amount">Requested Loan Amount</label>
+ 	  <input class="ref_inp"    type="number"      name="requested_amount"  
+	         step="100" min="1000"  max="5000"     value="{{requested_amount}}"  required
+	         title="We accept requests between $1,000 and $5,000, minimum increment = $100.">	     
+		 <br>
+  		 <br>  	
+  		 <br> 	  	  
+  		<button  class="play"   name="input"  value="input" title="Pressing this button will take you to the Loan Calculator page where you can 
+  		         (1) estimate your monthly payment for the Loan Amount requested, and 
+  		         (2) change the actual Amount of your Loan request, if so desired.">Submit Input</button>  
+    </form>
+    {{/noUser}}	
+    
+    
+    {{#User}} 
+	    <form  action="loancalculator"  method="post">  
+	    	  	  	  
+	      <h2>JavaBank: Your Application Is Ready</h2>
+	        <br>
+	      <div> Thank you for your application {{ first_name }} {{ last_name }}. <br> 
+	            Use Loan Calculator to estimate your Monthly Payment at different annual rates. <br>
+	            You can adjust the your Amount Requested prior to submitting your application.
+	      </div>
+	      <br> 
+	          <input class="ref_inp"  type="text" name="first_name"  value="{{requested_amount}}"  required>
+		  <br>  
+	
+		  <button name="submit" value="submit">Submit Application</button>
+		</form> 
+		  
+      	  <input id="div1">		  
+		  <br>
+		  
+		<form  action="loancalculator"  method="post">  
+		   <button name="loancalculator" value="loancalculator">Loan Calculator</button>
+		   <br>
+		   <p> If you're going to borrow ${{ requested_amount }}, see above,
+		          at {{ rate }}% rate, see below, and repay it over 5 years, your monthly payment will be ${{ monthly_payment }}.
+		     	  The payments do not change over time.
+		   </p>
+		   
+			<span class="questionrate" rel="popover" data-trigger="hover" data-content="The 
+				length of time you have to pay back your loan (30-year and 15-year fixed-rate loans are 
+				common)." data-original-title="" title="">?
+			</span>		   
+		   
+		   
+		   
+		   <label class="lbl_calc"   for="requested_amount">Requested amount (change)</label>
+ 	  	   <input class="ref_inp"    type="number"      name="requested_amount_check"  
+	              step="100" min="1000"  max="5000"     value="{{requested_amount}}"  required>
+	        <br>      
+	       <label class="lbl_calc"   for="monthly_payment">Your estimated Monthly Payment at {{ rate }}%</label>
+ 	  	   <input class="ref_inp"    type="number" min="0" step="1" name="monthly_payment" value="0"       readonly="readonly" 	                
+	              value="{{monthly_payment}}">
+	              
+	       <div   class="tooltip">Annual Rate
+  				  <span class="tooltiptext">Annual percentage rate (APR) is the annual cost of credit expressed as a percentage. 
+  				  	The Federal Truth and Lending Law requires lenders to disclose the true annual interest on consumer sales, 
+  				  	as well as the total dollar cost and other terms of a loan. It is commonly used to compare loan programs from different lenders.
+					The following fees are generally included in the APR:
+					Points - both discount points and origination points
+					Pre-paid interest. The interest paid from the date the loan closes to the end of the month. 
+					Most mortgage companies assume 15 days of interest in their calculations. However, companies may use any number between 1 and 30!
+					Loan-processing fee, Underwriting fee, Document-preparation fee, Private mortgage-insurance
+				 </span>
+		   </div>     
+	              
+	              
+		</form>
+    {{/User}}
+       
+</body>  
+</html> 

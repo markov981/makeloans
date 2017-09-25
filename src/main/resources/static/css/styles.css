@@ -1,0 +1,209 @@
+html, body{
+		margin: 		  10;
+		padding: 		  10;
+        font-family: 	  Verdana, Segoe, sans-serif;
+	    font-style: 	  normal;
+	    color: 			  #005a86;
+	    background-color: #ecffec;}
+
+body{ font-size: 		16px; }	
+form{ display: 			inline;}	
+
+
+h2 {
+    color: 			#005a86;
+    font-family: 	Verdana;
+    font-size: 		18px;
+    font-style:		italic;
+}	
+	
+button {
+  border-radius: 	0;
+  padding: 			4px 8px;
+  border: 			2px solid transparent;
+  background-color: #FF5555;
+  color: 			white;
+  outline: 			0;}
+
+button:focus,
+button:hover {
+  border-color: 	#FF5555;
+  background-color: transparent;
+  color: 			#FF5555;}
+
+button:active {
+  border-color: 	#FF5555;
+  background-color: #ff8982;
+  color: 			black;}
+	
+	
+	
+label{ 
+	display: 	inline-block;
+	fontcolor: 	#000000; 
+    width:		110px;
+    padding: 	5px;}
+
+
+.ref_info{
+		font-size: 			14px;
+		display: 			inline-block; 
+		width: 				220px;	
+		text-align:         left;
+		background-color:   #efefef}
+		
+		
+#lbl_amnt{width: 			200px;}		
+		
+		
+#lbl_calc{width: 			280px;}		
+
+
+
+.inpt_long{
+		font-size: 			14px;
+		display: 			inline-block; 
+		width: 				420px;	
+		text-align:         left;
+		background-color:   #f4f4f4}		
+		
+		
+.ref_inp{
+		background-color:   #f4f4f4}		
+
+
+
+
+#footnote_amt{
+	    display: 			inline-block; 
+		font-size: 			10px;
+		width: 				500px;	
+		height: 			8px;
+		text-align:         left;
+	    fontcolor: 			#ff7171; }
+
+#cards_left{
+		height:				16px; 
+		width:				20px;
+		background-color: 	#c0c0c0;
+		font-size: 			12px;
+		color:              white;
+		box-shadow: 		none;
+        border: 			0px solid;	}
+        
+#cards_left:focus {outline:none;}
+
+
+#div1{
+		height:				0.5px; 
+		width:				600px;	
+		background-color: 	#ff7171;
+		box-shadow: 		none;
+        border: 			0px solid
+}	
+	
+#hand_p{
+		height:				16px; 
+		width:				380px;
+		background-color: 	#ffffff;
+		font-size: 			14px;
+		box-shadow: 		none;
+        border: 			0px solid;
+        color:				#000080;
+        border: 			0;
+        border-bottom: 		1px solid #000080;
+        outline: 			0;}
+
+
+
+.player_info {
+    	box-shadow: 		none;
+    	border: 			0;
+        border-bottom: 		1px solid #808080;
+        outline: 			0;
+        background-color: 	#ffffff;}	
+
+.player_info:focus {
+    outline:none;}	
+
+hr
+{   
+    background-color: #ff7171;
+    border: 0 none;
+    color: #ff7171;
+    height: 1px;
+    width:  600px;
+}
+
+.questionrate {
+    color: #509BF3;
+    border: 1px solid #509BF3;
+    width: 23px;
+    height: 23px;
+    background: #FFF;
+    display: inline-block;
+    border-radius: 20px;
+    margin: 0 0 0 10px;
+    line-height: 20px;
+    font-weight: 600;
+    font-size: 13px;
+}
+
+
+	
+#errorSSN{
+	  font-size:    10px;
+	  height: 	    12px;
+	  width:        270px;
+	  background-color: #FF5555;
+      color: 		white;	
+}
+
+
+/* Tooltip container */
+.tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
+}
+
+/* Tooltip text */
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 320px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+
+    /* Position the tooltip text */
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -60px;
+
+    /* Fade in tooltip */
+    opacity: 0;
+    transition: opacity 1s;
+}
+
+/* Tooltip arrow */
+.tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}
+	
