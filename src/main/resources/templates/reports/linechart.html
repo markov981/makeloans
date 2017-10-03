@@ -1,0 +1,24 @@
+<!doctype html>
+
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>JavaBank: Reports</title>
+	<link rel="stylesheet" href="http://localhost:8080/css/styles.css">
+</head>
+
+<body>
+
+	<form  action="lines"  method="post"> 
+	    <input id="shift"  type="number" name="shift" step="0.1" min="0.5"  max="2"   value="{{ shift }}"  required>
+    	<button>Try It</button>
+    	</form>
+	
+
+	<div>
+		<img src="/reports/{{ line_chart }}" border=0  usemap="#imgMap">
+	</div>
+	
+</body>  
+</html> 
+

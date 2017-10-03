@@ -15,16 +15,20 @@
       <br>
       <br>
 	  <label class="ref_lbl"   for="first_name"  >First Name</label>
-	  <input class="ref_inp"   type="text"       name="first_name"    value="{{first_name}}"  required>
+	  <input class="ref_inp"   type="text"       name="firstname"    value="{{firstname}}"  required>
 	    <br> 
 	  <label class="ref_lbl"   for="last_name"   >Last Name </label>
-	  <input class="ref_inp"   type="text"       name="last_name"     value="{{last_name}}"   required>
+	  <input class="ref_inp"   type="text"       name="lastname"     value="{{lastname}}"   required>
 	    <br> 
 	  <label class="ref_lbl"   for="address"     >Address  </label>
 	  <input class="inpt_long" type="text"       name="address"       value="{{address}}"     required>
 	    <br> 
 	  <label class="ref_lbl"   for="email"       >Email    </label>
 	  <input class="inpt_long" type="text"       name="email"         value="{{email}}"       required>
+	  {{#errorEmail}}
+	        <div id="errorEmail">{{ errorEmail }}</div>
+	  {{/errorEmail}}
+	  
 	    <br> 
 	  <label class="ref_lbl"   for="ssn"         >SSN</label>         
 	  <input class="ref_inp"   type="text"       name="ssn"           value="{{ssn}}"         required
@@ -36,9 +40,9 @@
   		<br>   		
       <input id="div1"> 
  		<br>
- 	  <label id="lbl_amnt"" for="requested_amount">Requested Loan Amount</label>
- 	  <input class="ref_inp"    type="number"      name="requested_amount"  
-	         step="100" min="1000"  max="5000"     value="{{requested_amount}}"  required
+ 	  <label id="lbl_amnt" for="requested_amount">Requested Loan Amount</label>
+ 	  <input class="ref_inp"    type="number"      name="requestedAmount"  
+	         step="100" min="1000"  max="5000"     value="{{requestedAmount}}"  required
 	         title="We accept requests between $1,000 and $5,000, minimum increment = $100.">	     
 		 <br>
   		 <br>  	
@@ -55,12 +59,12 @@
 	    	  	  	  
 	      <h2>JavaBank: Your Application Is Ready</h2>
 	        <br>
-	      <div> Thank you for your application {{ first_name }} {{ last_name }}. <br> 
+	      <div> Thank you for your application {{ firstname }} {{ lastname }}. <br> 
 	            Use Loan Calculator to estimate your Monthly Payment at different annual rates. <br>
 	            You can adjust the your Amount Requested prior to submitting your application.
 	      </div>
 	      <br> 
-	          <input class="ref_inp"  type="text" name="first_name"  value="{{requested_amount}}"  required>
+	          <input class="ref_inp"  type="text" name="first_name"  value="{{requestedAmount}}"  required>
 		  <br>  
 	
 		  <button name="submit" value="submit">Submit Application</button>
@@ -72,7 +76,7 @@
 		<form  action="loancalculator"  method="post">  
 		   <button name="loancalculator" value="loancalculator">Loan Calculator</button>
 		   <br>
-		   <p> If you're going to borrow ${{ requested_amount }}, see above,
+		   <p> If you're going to borrow ${{ requestedAmount }}, see above,
 		          at {{ rate }}% rate, see below, and repay it over 5 years, your monthly payment will be ${{ monthly_payment }}.
 		     	  The payments do not change over time.
 		   </p>
@@ -86,7 +90,7 @@
 		   
 		   <label class="lbl_calc"   for="requested_amount">Requested amount (change)</label>
  	  	   <input class="ref_inp"    type="number"      name="requested_amount_check"  
-	              step="100" min="1000"  max="5000"     value="{{requested_amount}}"  required>
+	              step="100" min="1000"  max="5000"     value="{{requestedAmount}}"  required>
 	        <br>      
 	       <label class="lbl_calc"   for="monthly_payment">Your estimated Monthly Payment at {{ rate }}%</label>
  	  	   <input class="ref_inp"    type="number" min="0" step="1" name="monthly_payment" value="0"       readonly="readonly" 	                

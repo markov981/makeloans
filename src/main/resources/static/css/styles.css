@@ -4,7 +4,7 @@ html, body{
         font-family: 	  Verdana, Segoe, sans-serif;
 	    font-style: 	  normal;
 	    color: 			  #005a86;
-	    background-color: #ecffec;}
+	    background-color: #f4f4f4;}
 
 body{ font-size: 		16px; }	
 form{ display: 			inline;}	
@@ -154,7 +154,7 @@ hr
 #errorSSN{
 	  font-size:    10px;
 	  height: 	    12px;
-	  width:        270px;
+	  width:        330px;
 	  background-color: #FF5555;
       color: 		white;	
 }

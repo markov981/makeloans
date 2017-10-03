@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.internal.constraintvalidators.hv.EmailValidator;
@@ -22,6 +23,7 @@ public class Applicant {
 	@Id	
 	private int id;  
 	
+	@NotNull
 	@Column(length=50, nullable=true)
 	private String firstname; 
 	
@@ -32,11 +34,11 @@ public class Applicant {
 	private String address; 
 	
 	@Column(length=50, nullable=false)
-	// @Email
+	@Email
 	private String email;    		        
 		
 	@Column(length=11, nullable=false)
-	private String snn;	 
+	private String ssn;	 
 	
 	@Column(unique = true, nullable = false)             // ? numeric
 	private Long requestedAmount;   
@@ -45,14 +47,14 @@ public class Applicant {
 	public Applicant() {}
 	
 	// RandomNumberGenerator generator,
-	public Applicant(String firstname, String lastname, String address, String email, String snn, int n, Long requestedAmount) {
+	public Applicant(String firstname, String lastname, String address, String email, String ssn, int n, Long requestedAmount) {
 
 		this.id 			 = setIdRandomly(n);         
 		this.firstname 		 = firstname;
 		this.lastname 		 = lastname;
 		this.address 		 = address;
 		this.email 			 = email;
-		this.snn 			 = snn;
+		this.ssn 			 = ssn;
 		this.requestedAmount = requestedAmount;
 	}
 
@@ -126,7 +128,7 @@ public class Applicant {
 	// The value of 'N' is passed from where? 
 	// RandomNumberGenerator generator, 
 	public int setIdRandomly(int n){
-	  	return new Random().nextInt(5) + 1; 
+	  	return new Random().nextInt(n) + 1; 
 	 }
 	
 
@@ -169,11 +171,11 @@ public class Applicant {
 	}
 
 	
-	public String getSnn() {
-		return snn;
+	public String getSsn() {
+		return ssn;
 	}
-	public void setSnn(String snn) {
-		this.snn = snn;
+	public void setSsn(String ssn) {
+		this.ssn = ssn;
 	}
 
 	
