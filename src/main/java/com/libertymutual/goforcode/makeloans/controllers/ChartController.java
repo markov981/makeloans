@@ -66,14 +66,12 @@ public class ChartController {
 		        "Loan Originations by Product Group", 			
 		        "2017", 							
 		        "FICO (daily averages)", 			
-		        chart.createDataset(550, shift, 10),
+		        chart.createDataset(550, shift, 14),
 		        PlotOrientation.VERTICAL,
 		        true, true, false);
 		
-	    chart.formatLineChart(lineChart);
-	
-		
-		
+	    chart.formatLineChart(lineChart, 550, 1.1, 14);
+			
 		ChartRenderingInfo info = new ChartRenderingInfo(new StandardEntityCollection());
 		HttpSession session = request.getSession();
 		PrintWriter out = response.getWriter();
@@ -101,16 +99,11 @@ public class ChartController {
 		Chart chart = new Chart("FFF");	
 		
 		JFreeChart lineChart = ChartFactory.createLineChart(	
-		        "Loan Originations by Product Group", 			
-		        "2017", 							
-		        "FICO (daily averages)", 			
-		        chart.createDataset(550, shift, 10),
-		        PlotOrientation.VERTICAL,
-		        true, true, false);
+		    "Loan Originations by Product Group", "2017", "FICO (daily averages)", 			
+		    chart.createDataset(550, shift, 14),
+		    PlotOrientation.VERTICAL, true, true, false);
 		
-	    chart.formatLineChart(lineChart);
-	
-		System.out.println("NNNNNNNNN");
+	    chart.formatLineChart(lineChart, 550, shift, 14);
 		
 		ChartRenderingInfo info = new ChartRenderingInfo(new StandardEntityCollection());
 		HttpSession session = request.getSession();
@@ -128,4 +121,70 @@ public class ChartController {
 		
 		return "reports/linechart";
 	}
+	
+	
+
+	@GetMapping("forecastma")
+	public String drawLineChartMA(Model model, HttpServletResponse response, HttpServletRequest request) throws IOException {
+		
+		Chart chart = new Chart("FFF");	
+//		double shift = 1.1;
+//		model.addAttribute("shift", shift);
+		
+		JFreeChart lineChart = ChartFactory.createLineChart(	
+		        "Loan Originations by Product Group", 			
+		        "2017", 							
+		        "FICO (daily averages)", 			
+		        chart.createMAForecastingData(550, 20, 3, 6),
+		        PlotOrientation.VERTICAL,
+		        true, true, false);
+		
+		chart.formatLineChartForecast(lineChart);
+			
+		ChartRenderingInfo info = new ChartRenderingInfo(new StandardEntityCollection());
+		HttpSession session = request.getSession();
+		PrintWriter out = response.getWriter();
+		
+		String file = "";
+		file = ServletUtilities.saveChartAsPNG(lineChart, 900, 600, info, session);
+		response.addHeader("Content-Type", "text/html"); // added
+		ChartUtilities.writeImageMap(out, "imgMap", info, false);
+		out.flush();
+		
+		String filename = request.getContextPath() + "images?filename=" + file;		
+		model.addAttribute("line_chart", filename);
+		return "reports/forecastma"; 				
+	}
+//	
+//	@PostMapping("forecastma")
+//	public String displayMaForecast(Model model, HttpServletResponse response, HttpServletRequest request, double shift) throws IOException {
+//		
+//		model.addAttribute("noUser", false);
+//		model.addAttribute("shift", shift);
+//		
+//		Chart chart = new Chart("FFF");	
+//		
+//		JFreeChart lineChart = ChartFactory.createLineChart(	
+//		    "Loan Originations by Product Group", "2017", "FICO (daily averages)", 			
+//		    chart.createMAForecastingData(550, 20, 3, 6),
+//		    PlotOrientation.VERTICAL, true, true, false);
+//		
+//	    chart.formatLineChartForecast(lineChart);
+//		
+//		ChartRenderingInfo info = new ChartRenderingInfo(new StandardEntityCollection());
+//		HttpSession session = request.getSession();
+//		PrintWriter out = response.getWriter();
+//		
+//		String file = "";
+//		file = ServletUtilities.saveChartAsPNG(lineChart, 900, 600, info, session);
+//		response.addHeader("Content-Type", "text/html"); // added
+//		ChartUtilities.writeImageMap(out, "imgMap", info, false);
+//		out.flush();
+//		
+//		String filename = request.getContextPath() + "images?filename=" + file;		
+//		model.addAttribute("line_chart", filename);
+//
+//		
+//		return "reports/forecastma";
+//	}
 }

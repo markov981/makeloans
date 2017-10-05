@@ -40,14 +40,24 @@ public class Applicant {
 	@Column(length=11, nullable=false)
 	private String ssn;	 
 	
-	@Column(unique = true, nullable = false)             // ? numeric
+	@Column(nullable = false)             // ? numeric
 	private Long requestedAmount;   
+	
+	@Column(nullable = false)             
+	private Double requestedTerm;   
+	
+	// Interest rate, implied by Applicant self-selected credit standing
+	// Is used in Loan Calculator cals only
+	@Column(nullable = false)             
+	private Double possibleRate;   
+	
 	
 	
 	public Applicant() {}
 	
 	// RandomNumberGenerator generator,
-	public Applicant(String firstname, String lastname, String address, String email, String ssn, int n, Long requestedAmount) {
+	public Applicant(String firstname, String lastname, String address, String email, String ssn, int n, 
+			         Long requestedAmount, double requestedTerm, double possibleRate) {
 
 		this.id 			 = setIdRandomly(n);         
 		this.firstname 		 = firstname;
@@ -56,6 +66,8 @@ public class Applicant {
 		this.email 			 = email;
 		this.ssn 			 = ssn;
 		this.requestedAmount = requestedAmount;
+		this.requestedTerm   = requestedTerm;
+		this.possibleRate    = possibleRate;
 	}
 
 	
@@ -199,6 +211,22 @@ public class Applicant {
 	}
 	public void setEmail(String email) {
 		this.email = email;
-	}	
+	}
+
+	public Double getRequestedTerm() {
+		return requestedTerm;
+	}
+	public void setRequestedTerm(Double requestedTerm) {
+		this.requestedTerm = requestedTerm;
+	}
+
+	public Double getPossibleRate() {
+		return possibleRate;
+	}
+
+	public void setPossibleRate(Double possibleRate) {
+		this.possibleRate = possibleRate;
+	}
+	
 }	
 	    

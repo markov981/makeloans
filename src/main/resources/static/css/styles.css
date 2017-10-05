@@ -53,12 +53,9 @@ label{
 		background-color:   #efefef}
 		
 		
-#lbl_amnt{width: 			200px;}		
-		
-		
-#lbl_calc{width: 			280px;}		
-
-
+#lbl_amnt{width: 200px;}				
+#lbl_calc{width: 280px;}		
+.lbl_tr{width: 	 135px;}	
 
 .inpt_long{
 		font-size: 			14px;
@@ -68,11 +65,11 @@ label{
 		background-color:   #f4f4f4}		
 		
 		
-.ref_inp{
-		background-color:   #f4f4f4}		
-
-
-
+.ref_inp{background-color:   #f4f4f4}		
+.ref_inpc{padding: 		   20;}	
+#lbl_tr{width: 440px;}	
+#lbl_final{width: 150px;}
+#btn_loan_calc{background-color:   #ff7c3e}
 
 #footnote_amt{
 	    display: 			inline-block; 

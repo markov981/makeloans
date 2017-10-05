@@ -13,9 +13,9 @@ public class RandomNumberGenerator {
 	}
 	
 	
-	// Simulate n = sampleSize random outcomes with Normal distribution & constrained tails
+	// Simulate n random outcomes with Normal distribution & constrained tails & seed (= mean)
 	public ArrayList<Integer> simulateRandomValues(double mean, int sampleSize) {
-		Random random = new Random();
+		Random random = new Random((long)mean);
 		int temp;
 		ArrayList<Integer> simulatedData = new ArrayList<Integer>();
 		final double CV = 0.1;   // coefficient of variation --> data is not noisy 
@@ -29,7 +29,6 @@ public class RandomNumberGenerator {
 				 simulatedData.add(temp); 
 				 }
 		}
-		System.out.println("Simulated Series: " + simulatedData);
 		return simulatedData;
 	}
 	
@@ -41,5 +40,15 @@ public class RandomNumberGenerator {
         
         return (int) (sum / nums.size());
     } 
-
+    
+    
+    public double findStd(ArrayList<Integer> nums){
+        double mean = findMean(nums);
+        double temp = 0; 
+        
+        for (double x : nums){
+        	temp += (x - mean)*(x - mean);}
+        
+        return Math.sqrt(temp) / (nums.size() - 1);
+    }   
 }

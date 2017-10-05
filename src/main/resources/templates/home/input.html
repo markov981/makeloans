@@ -2,7 +2,7 @@
 
 <html>
 <head>
-	<title>Java (!_!) Loans</title>
+	<title>javaBank Application</title>
 	<link rel="stylesheet" href="http://localhost:8080/css/styles.css">
 </head>
 
@@ -55,62 +55,105 @@
     
     
     {{#User}} 
-	    <form  action="loancalculator"  method="post">  
-	    	  	  	  
-	      <h2>JavaBank: Your Application Is Ready</h2>
-	        <br>
-	      <div> Thank you for your application {{ firstname }} {{ lastname }}. <br> 
-	            Use Loan Calculator to estimate your Monthly Payment at different annual rates. <br>
-	            You can adjust the your Amount Requested prior to submitting your application.
+	    <form  action="/loancalculator"  method="post">  
+	      <h2>Thank you for your application, {{ firstname }} {{ lastname }}.</h2>
+	      
+	      <div> You can submit it now or ... <br>
+	            You can use them Loan Calculators below to get your monthly payment first.
 	      </div>
-	      <br> 
-	          <input class="ref_inp"  type="text" name="first_name"  value="{{requestedAmount}}"  required>
-		  <br>  
-	
+	    <br> 
+	      <input class="ref_inp"  type="text" name="first_name"  value="{{requestedAmount}}"  required>
+		<br>  
+	    <br>
 		  <button name="submit" value="submit">Submit Application</button>
-		</form> 
-		  
-      	  <input id="div1">		  
-		  <br>
-		  
-		<form  action="loancalculator"  method="post">  
-		   <button name="loancalculator" value="loancalculator">Loan Calculator</button>
-		   <br>
-		   <p> If you're going to borrow ${{ requestedAmount }}, see above,
-		          at {{ rate }}% rate, see below, and repay it over 5 years, your monthly payment will be ${{ monthly_payment }}.
-		     	  The payments do not change over time.
+		
+		
+		
+		<br>
+      	  <input id="div1">	 
+		<br>
+		  <h5>Check This Loan Calculator <br>
+			  <a href='http://www.mlcalc.com/loan-calculator/'>
+			     <img src="http://localhost:8080/images/calc.png"  alt="Check Loan Calculator" height="60" width="60"/>		     
+			  </a>
+		  </h5>
+      	 <input id="div1">	
+      	   		  
+      	   		  
+
+		   <p> If you borrow ${{ requestedAmount }} at {{ possibleRate }}% rate for {{ requestedTerm }} years what will be your Monthly Payment? <br>
+		       The payments do not change over time.
 		   </p>
-		   
+		   <br>
+<!-- 		   
 			<span class="questionrate" rel="popover" data-trigger="hover" data-content="The 
 				length of time you have to pay back your loan (30-year and 15-year fixed-rate loans are 
 				common)." data-original-title="" title="">?
 			</span>		   
+ -->		   		   
+		   <label class="lbl_tr"  for="requested_amount">Amount</label>
+		   <label class="lbl_tr"  for="requested_term">Term</label>
+		   <label id="lbl_tr"     for="quality" title="Given the credit level you selected( ) your APR will be about {{ possibleRate }}%.">How Bad is Your Credit?</label>  
 		   
-		   
-		   
-		   <label class="lbl_calc"   for="requested_amount">Requested amount (change)</label>
- 	  	   <input class="ref_inp"    type="number"      name="requested_amount_check"  
+		 <br>
+ 	  	   <input class="ref_inpc"    type="number"     name="requested_amount"  
 	              step="100" min="1000"  max="5000"     value="{{requestedAmount}}"  required>
-	        <br>      
-	       <label class="lbl_calc"   for="monthly_payment">Your estimated Monthly Payment at {{ rate }}%</label>
- 	  	   <input class="ref_inp"    type="number" min="0" step="1" name="monthly_payment" value="0"       readonly="readonly" 	                
-	              value="{{monthly_payment}}">
-	              
-	       <div   class="tooltip">Annual Rate
-  				  <span class="tooltiptext">Annual percentage rate (APR) is the annual cost of credit expressed as a percentage. 
-  				  	The Federal Truth and Lending Law requires lenders to disclose the true annual interest on consumer sales, 
-  				  	as well as the total dollar cost and other terms of a loan. It is commonly used to compare loan programs from different lenders.
-					The following fees are generally included in the APR:
-					Points - both discount points and origination points
-					Pre-paid interest. The interest paid from the date the loan closes to the end of the month. 
-					Most mortgage companies assume 15 days of interest in their calculations. However, companies may use any number between 1 and 30!
-					Loan-processing fee, Underwriting fee, Document-preparation fee, Private mortgage-insurance
-				 </span>
-		   </div>     
-	              
-	              
-		</form>
-    {{/User}}
+	             
+ 	  	   <input class="ref_inpc"    type="number"      name="requested_term"  
+	              step="0.5" min="3"  max="5"            value="{{requestedTerm}}"     required>
+	              	          
+	       <select id="tooltip"> 
+			  <option value="1"	selected>Exceptional (800+) <> 7%</option> 
+			  <option value="2" 		>Good+ (670 - 799) <> 15%</option>
+			  <option value="3"			>Fair (580 - 669) <> 22%</option>
+			  <option value="4"			>Uh... (min - 579) <> 29%</option>
+			</select>      
+	        
+        </form> 
+		
+   		<form  action="/loancalculatoXXX"  method="post">  
+            
+		<!-- LOAN CALCULATOR CALL -->
+       <script type="text/javascript">
        
+            $('#btn_loan_calc').click(function(){
+            	
+            }
+	       	let parameters = {
+	       		mlcalc_default_calculator 	= 'loan',
+	       		mlcalc_currency_code 		= 'usd',
+	       		mlcalc_loan_amount 			= 'requestedAmount',
+				mlcalc_loan_term 			= 'requestedTerm',
+				mlcalc_interest_rate 		= 'possibleRate',
+				mlcalc_amortization 		= 'year_nc'
+	       	};
+	       	$.post('http://www.mlcalc.com/loan-calculator/', parameters)
+	       		<!--  .done(response => putCalcualatedPaymentInPage(response))  -->
+	       	          .done(response => console.log(response));	       	          
+	       	   });
+       </script>
+       
+ 	        <br>      
+	        <br>  
+	            <button id="btn_loan_calc" name="loancalculator" value="loancalculator">Calculate</button>
+		 	<br>
+	        <br>    
+	       <label id="lbl_final"   for="monthly_payment"  title="At {{ possibleRate }}% rate, term of {{ requestedTerm }}.">Monthly Payment</label>
+ 	  	   <input class="ref_inp"  type="number" min="0" step="1" name="monthly_payment" value="0"  readonly="readonly"  value="{{monthly_payment}}">   
+ 	  	   <!-- "{{monthly_payment}}" -->  
+ 	  	   
+ 	  	   </form>
+ 	  	   
+ 	  	   
+ 	  	 {{/User}} 
 </body>  
 </html> 
+
+
+
+
+
+
+
+
+

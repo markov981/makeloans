@@ -60,6 +60,8 @@ public class HomeController {
 		model.addAttribute("firstname", applicant.getFirstname());
 		model.addAttribute("lastname",  applicant.getLastname());
 		model.addAttribute("address",  	applicant.getAddress());
+		model.addAttribute("requestedTerm", 5);
+		
 		
 		model.addAttribute("email", applicant.getEmail());
 					System.out.println("email:  " + applicant.getEmail()); 
@@ -77,17 +79,38 @@ public class HomeController {
 			model.addAttribute("noUser", true);
 			model.addAttribute("User",   false);
 		}
-	
-		
-			
+						
 		model.addAttribute("requestedAmount", Long.toString(applicant.getRequestedAmount()));
-			
-		model.addAttribute("monthly_payment", 100);   // ?????
-		model.addAttribute("rate", 17);               // ?????
+		model.addAttribute("possibleRate", 7);               
+		model.addAttribute("requestedTerm", 5);
+		
+		model.addAttribute("monthly_payment", 100);   
 		
 		return "/home/input";
 	}
-			
+
+
+	@PostMapping("/loancalculator")
+	public String displayLoanCalcResults(Model model, Applicant applicant, BindingResult result) {
+		
+		model.addAttribute("noUser", false);
+		model.addAttribute("User",   true);
+				
+//		model.addAttribute("firstname", applicant.getFirstname());
+//		model.addAttribute("lastname",  applicant.getLastname());
+//		model.addAttribute("address",  	applicant.getAddress());
+//		model.addAttribute("email",     applicant.getEmail());
+//		model.addAttribute("ssn",       applicant.getSsn());	
+						
+		model.addAttribute("requestedAmount", Long.toString(applicant.getRequestedAmount())); 
+		model.addAttribute("requestedTerm",   Double.toString(applicant.getRequestedTerm()));
+		model.addAttribute("possibleRate",    Double.toString(applicant.getPossibleRate()));
+		
+		model.addAttribute("monthly_payment", 100); 
+		
+		return "/home/input";
+	}
+	
 }
 
 

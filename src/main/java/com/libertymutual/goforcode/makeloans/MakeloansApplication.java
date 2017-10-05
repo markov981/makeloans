@@ -21,6 +21,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import com.libertymutual.goforcode.makeloans.models.Applicant;
 import com.libertymutual.goforcode.makeloans.models.Chart;
 import com.libertymutual.goforcode.makeloans.services.RandomNumberGenerator;
+import com.libertymutual.goforcode.makeloans.services.TimeSeries;
 
 @SpringBootApplication(exclude = {SecurityAutoConfiguration.class })
 public class MakeloansApplication {
@@ -36,10 +37,15 @@ public class MakeloansApplication {
 		
 		
 //		RandomNumberGenerator randomData = new RandomNumberGenerator();		
-//		ArrayList<Integer> simData = randomData.simulateRandomValues(500, 80, 350, 850, 10);		
+//		ArrayList<Integer> simData = randomData.simulateRandomValues(500, 6);
+//		TimeSeries ts = new TimeSeries();	
+//		int[] arr = ts.createMAForecast(simData, 3, 6);
 //		System.out.println("Simulated data: " + simData);		
 //		System.out.println("Simulated data: " + randomData.findMean(simData));
-
+//		
+//		for(int i = 0; i < arr.length; i++)
+//		{System.out.println(i + " = i, MA-3 data: " + arr[i]);}
+		
 
 		
 //		Chart example = new Chart("FFF");
