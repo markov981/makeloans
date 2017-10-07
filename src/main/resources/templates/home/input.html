@@ -85,12 +85,7 @@
 		       The payments do not change over time.
 		   </p>
 		   <br>
-<!-- 		   
-			<span class="questionrate" rel="popover" data-trigger="hover" data-content="The 
-				length of time you have to pay back your loan (30-year and 15-year fixed-rate loans are 
-				common)." data-original-title="" title="">?
-			</span>		   
- -->		   		   
+		   		   
 		   <label class="lbl_tr"  for="requested_amount">Amount</label>
 		   <label class="lbl_tr"  for="requested_term">Term</label>
 		   <label id="lbl_tr"     for="quality" title="Given the credit level you selected( ) your APR will be about {{ possibleRate }}%.">How Bad is Your Credit?</label>  
@@ -102,29 +97,32 @@
  	  	   <input class="ref_inpc"    type="number"      name="requested_term"  
 	              step="0.5" min="3"  max="5"            value="{{requestedTerm}}"     required>
 	              	          
-	       <select id="tooltip"> 
-			  <option value="1"	selected>Exceptional (800+) <> 7%</option> 
-			  <option value="2" 		>Good+ (670 - 799) <> 15%</option>
-			  <option value="3"			>Fair (580 - 669) <> 22%</option>
-			  <option value="4"			>Uh... (min - 579) <> 29%</option>
+	       <select id="rate"> 
+			  <option value="7"	selected>Exceptional (800+) <> 7%</option> 
+			  <option value="15" 		>Good+ (670 - 799) <> 15%</option>
+			  <option value="22"		>Fair (580 - 669) <> 22%</option>
+			  <option value="29"		>Uh... (min - 579) <> 29%</option>
 			</select>      
 	        
         </form> 
 		
-   		<form  action="/loancalculatoXXX"  method="post">  
+		
+		
+   		<form  action="/loancalculatorXXX"  method="post">  
             
 		<!-- LOAN CALCULATOR CALL -->
        <script type="text/javascript">
        
             $('#btn_loan_calc').click(function(){
             	
+            	const rateValue = $('#rate').val();
             }
 	       	let parameters = {
 	       		mlcalc_default_calculator 	= 'loan',
 	       		mlcalc_currency_code 		= 'usd',
 	       		mlcalc_loan_amount 			= 'requestedAmount',
 				mlcalc_loan_term 			= 'requestedTerm',
-				mlcalc_interest_rate 		= 'possibleRate',
+				mlcalc_interest_rate 		= 'rateValue',
 				mlcalc_amortization 		= 'year_nc'
 	       	};
 	       	$.post('http://www.mlcalc.com/loan-calculator/', parameters)

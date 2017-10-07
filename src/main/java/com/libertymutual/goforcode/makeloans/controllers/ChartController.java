@@ -54,7 +54,18 @@ public class ChartController {
 		}
 	}
 	  
-	  
+	
+	// Front page for Analyst
+	@GetMapping("")
+	public String getAnalystTools(Model model) {
+		
+		model.addAttribute("ma_length", 6);     
+		model.addAttribute("ma_period", 3);		// like 3-month MA
+			
+		return "home/analyst";
+	}
+	
+	
 	@GetMapping("lines")
 	public String drawLineChart(Model model, HttpServletResponse response, HttpServletRequest request) throws IOException {
 		
@@ -71,18 +82,21 @@ public class ChartController {
 		        true, true, false);
 		
 	    chart.formatLineChart(lineChart, 550, 1.1, 14);
+	    String filename = ChartController.setConnection(lineChart, response, request, 900, 600);  // XXXXXXXXX XXXXXXXXXXXXXX
 			
-		ChartRenderingInfo info = new ChartRenderingInfo(new StandardEntityCollection());
-		HttpSession session = request.getSession();
-		PrintWriter out = response.getWriter();
-		
-		String file = "";
-		file = ServletUtilities.saveChartAsPNG(lineChart, 900, 600, info, session);
-		response.addHeader("Content-Type", "text/html"); // added
-		ChartUtilities.writeImageMap(out, "imgMap", info, false);
-		out.flush();
-		
-		String filename = request.getContextPath() + "images?filename=" + file;		
+//		ChartRenderingInfo info = new ChartRenderingInfo(new StandardEntityCollection());
+//		HttpSession session = request.getSession();
+//		PrintWriter out = response.getWriter();
+//		
+//		String file = "";
+//		file = ServletUtilities.saveChartAsPNG(lineChart, 900, 600, info, session);
+//		response.addHeader("Content-Type", "text/html"); // added
+//		ChartUtilities.writeImageMap(out, "imgMap", info, false);
+//		out.flush();
+//		
+//		String filename = request.getContextPath() + "images?filename=" + file;	
+	    
+	    
 		model.addAttribute("line_chart", filename);
 		return "reports/linechart"; 				
 	}
@@ -124,22 +138,27 @@ public class ChartController {
 	
 	
 
-	@GetMapping("forecastma")
-	public String drawLineChartMA(Model model, HttpServletResponse response, HttpServletRequest request) throws IOException {
+
+	
+	
+
+	@PostMapping("forecastma")
+	public String drawLineChartMA(Model model, HttpServletResponse response, HttpServletRequest request, int ma_period, int ma_length) throws IOException {
 		
-		Chart chart = new Chart("FFF");	
-//		double shift = 1.1;
-//		model.addAttribute("shift", shift);
+		Chart chart = new Chart("FFF");			
+		int forecastPeriod = ma_period;
+		int forecastLength = ma_length;
+		int sampleSize = 20;
 		
 		JFreeChart lineChart = ChartFactory.createLineChart(	
-		        "Loan Originations by Product Group", 			
+		        "Loan Originations by Product Line", 			
 		        "2017", 							
 		        "FICO (daily averages)", 			
-		        chart.createMAForecastingData(550, 20, 3, 6),
+		        chart.createMAForecastingData(550, sampleSize, forecastPeriod, forecastLength),
 		        PlotOrientation.VERTICAL,
 		        true, true, false);
 		
-		chart.formatLineChartForecast(lineChart);
+		chart.formatLineChartBase(lineChart, sampleSize);
 			
 		ChartRenderingInfo info = new ChartRenderingInfo(new StandardEntityCollection());
 		HttpSession session = request.getSession();
@@ -155,36 +174,30 @@ public class ChartController {
 		model.addAttribute("line_chart", filename);
 		return "reports/forecastma"; 				
 	}
-//	
-//	@PostMapping("forecastma")
-//	public String displayMaForecast(Model model, HttpServletResponse response, HttpServletRequest request, double shift) throws IOException {
-//		
-//		model.addAttribute("noUser", false);
-//		model.addAttribute("shift", shift);
-//		
-//		Chart chart = new Chart("FFF");	
-//		
-//		JFreeChart lineChart = ChartFactory.createLineChart(	
-//		    "Loan Originations by Product Group", "2017", "FICO (daily averages)", 			
-//		    chart.createMAForecastingData(550, 20, 3, 6),
-//		    PlotOrientation.VERTICAL, true, true, false);
-//		
-//	    chart.formatLineChartForecast(lineChart);
-//		
-//		ChartRenderingInfo info = new ChartRenderingInfo(new StandardEntityCollection());
-//		HttpSession session = request.getSession();
-//		PrintWriter out = response.getWriter();
-//		
-//		String file = "";
-//		file = ServletUtilities.saveChartAsPNG(lineChart, 900, 600, info, session);
-//		response.addHeader("Content-Type", "text/html"); // added
-//		ChartUtilities.writeImageMap(out, "imgMap", info, false);
-//		out.flush();
-//		
-//		String filename = request.getContextPath() + "images?filename=" + file;		
-//		model.addAttribute("line_chart", filename);
-//
-//		
-//		return "reports/forecastma";
-//	}
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+		private static String setConnection(JFreeChart chart, HttpServletResponse response, HttpServletRequest request, int width, int height) throws IOException {
+			
+			ChartRenderingInfo info = new ChartRenderingInfo(new StandardEntityCollection());
+			HttpSession session = request.getSession();
+			PrintWriter out 	= response.getWriter();
+			
+			String file = ServletUtilities.saveChartAsPNG(chart, width, height, info, session);
+			response.addHeader("Content-Type", "text/html"); 
+			ChartUtilities.writeImageMap(out, "imgMap", info, false);
+			out.flush();
+			
+			String filename = request.getContextPath() + "images?filename=" + file;	
+			return filename;			
+		}
 }

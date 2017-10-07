@@ -28,6 +28,7 @@ public class HomeController {
 		this.creditRecordRepository = creditRecordRepository;
 	}
 
+	
 	@GetMapping("")
 	public String getInput(Model model) {
 		model.addAttribute("firstname", "");

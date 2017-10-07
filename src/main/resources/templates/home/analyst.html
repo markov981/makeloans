@@ -1,0 +1,27 @@
+<!doctype html>
+
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>JavaBank: Analyst</title>
+	<link rel="stylesheet" href="http://localhost:8080/css/styles.css">
+</head>
+
+<body>
+
+	<h2> Analyst: Vladimir</h2>
+
+	<form  action="forecastma"  method="post"> 
+	    <label class="lbl_tr"   for="ma_length">Moving Average: select forecast length (months)</label>
+	    <input id="forecastma"  type="number" name="ma_length" step="1" min="1"  max="6"   value="{{ ma_length }}"  required>
+	    <label class="lbl_tr"   for="ma_period">Moving Average: select subset width (months)</label>
+	    <input id="forecastma"  type="number" name="ma_period" step="2" min="3"  max="7"   value="{{ ma_period }}"  required>
+	    
+    	<button>Select</button>
+    </form>
+	
+
+	
+</body>  
+</html> 
+
