@@ -55,7 +55,9 @@ label{
 		
 #lbl_amnt{width: 200px;}				
 #lbl_calc{width: 280px;}		
-.lbl_tr{width: 	 135px;}	
+.lbl_tr  {width: 135px;}
+.lbl_w   {width:     135px;
+		  font-size: 10px;}	
 
 .inpt_long{
 		font-size: 			14px;

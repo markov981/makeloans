@@ -93,11 +93,12 @@ public class Chart extends ApplicationFrame {   // JFrame
 	}
 
  
-   // Start with 'historic' TSeries, create 'forecasted TS' (same historic part + forecasted 'end')
-   // the original series gets nulls for the 'forecasted' part 
-   public DefaultCategoryDataset createMAForecastingData(double mean, int sampleSize, int subsetSize, int forecastLength) {
+   // Simple MA series & forecast
+   // Start with 'historic' TSeries + calculate 'forecasted TS' (with the same historic part + forecasted 'end')
+   public DefaultCategoryDataset 
+          createMAForecastingData(double mean, int sampleSize, int subsetSize, int forecastLength) {
 
-		  String series = "Product Line: Credit Cards";
+		  String series = "Forecasting: Expected Losses";
 		  DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 		  TimeSeries             ts      = new TimeSeries(); 
 		  
@@ -105,25 +106,44 @@ public class Chart extends ApplicationFrame {   // JFrame
 		  ArrayList<Integer> historicSeries = simulation.simulateRandomValues(mean, sampleSize);
 		  int[] maSeries = ts.createMAForecast(historicSeries, subsetSize, forecastLength);	  
 		  
-		  // Create a single time series with a structural shift (and a gap in the period when shift happens)  
+		  // Create Historic TS  
 		  for (int i = 0; i < historicSeries.size(); i++) {			  
-			  dataset.addValue(historicSeries.get(i), series, new Day(i + 1, 10, 2017));		  
-		  }
+			   dataset.addValue(historicSeries.get(i), series, new Day(i + 1, 10, 2017));		  
+		  } // Create ForecastedTS  
 		  for (int i = 0; i < maSeries.length; i++) {
-			  dataset.addValue(maSeries[i],  series, new Day(i + 1, 10, 2017));
-		  }
-		  		  
-		  // Create a gap (missing value) in the time series
-		 // dataset.setValue(null, series, new Day(1 + sampleSize, 10, 2017));
+			   dataset.addValue(maSeries[i],  series, new Day(i + 1, 10, 2017));
+		  }	
 		  
 		  return dataset;
 	}
    
    
+   // Weighted MA series & forecast
+   public DefaultCategoryDataset 
+   createMAWhtForecastingData(double mean, int sampleSize, int subsetSize, int forecastLength, double [] weights) {
+
+	  String series = "Forecasting: Expected Losses";
+	  DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+	  TimeSeries             ts      = new TimeSeries(); 
+	  
+	  // Historic & ForecastedTS - overlap in the 'historic' part
+	  ArrayList<Integer> historicSeries = simulation.simulateRandomValues(mean, sampleSize);
+	  int[] maSeries = ts.createWeightedMAForecast(historicSeries, subsetSize, forecastLength, weights);	  
+	  
+	  // Create Historic TS  
+	  for (int i = 0; i < historicSeries.size(); i++) {			  
+		   dataset.addValue(historicSeries.get(i), series, new Day(i + 1, 10, 2017));	
+		   
+	  } // Create ForecastedTS  
+	  for (int i = 0; i < maSeries.length; i++) {
+		   dataset.addValue(maSeries[i],  series, new Day(i + 1, 10, 2017));
+	  }		  
+	  return dataset;
+}
    
    
    
-   public void formatLineChart(JFreeChart lineChart, double mean, double shift, int sampleSize) {
+   public void formatLineChart(JFreeChart lineChart, double mean, double shift, int sampleSize, int forecastLength) {
 			   
 		// The t-test 
 		ArrayList<Integer> prior = simulation.simulateRandomValues(mean, sampleSize);
@@ -152,12 +172,11 @@ public class Chart extends ApplicationFrame {   // JFrame
 		sourceTstat.setFont(new Font("SansSerif", Font.PLAIN, 16));   
 	    lineChart.addSubtitle(sourceTstat);
 	        
-	    formatLineChartBase(lineChart, sampleSize);
+	    formatLineChartBase(lineChart, sampleSize, forecastLength);
     }
+ 
    
-   
-   
-   public void formatLineChartBase(JFreeChart lineChart, int sampleSize, int subsetSize, int forecastLength) {
+   public void formatLineChartBase(JFreeChart lineChart, int sampleSize, int forecastLength) {
 	    	   
 	    // Legend
 	    LegendTitle legend = lineChart.getLegend();
@@ -172,8 +191,8 @@ public class Chart extends ApplicationFrame {   // JFrame
 	    plot.setDomainGridlinePaint(Color.lightGray);
 	    plot.setRangeGridlinePaint(Color.lightGray);
 
-	    // add vertical line
-	    Chart.addMarker(plot, sampleSize, subsetSize, forecastLength);
+	    // Add vertical line on the chart
+	   Chart.addMarker(plot, sampleSize, forecastLength);
 	    
 	    // Domain axis - label position (slanted)
 	    final CategoryAxis domainAxis = (CategoryAxis) plot.getDomainAxis();
@@ -201,13 +220,16 @@ public class Chart extends ApplicationFrame {   // JFrame
     }
    
    
-   private static void addMarker(CategoryPlot plot, int sampleSize, int subsetSize, int forecastLength) {
+   private static void addMarker(CategoryPlot plot, int sampleSize, int forecastLength) {
 	   
-       final Day day = new Day(sampleSize, 10, 2017);
+       final Day day = new Day(sampleSize+1, 10, 2017);
        final CategoryMarker forecastStart = new CategoryMarker(day);
        
        forecastStart.setPaint(Color.orange);
-       forecastStart.setLabel("Forecasted Data: " + forecastLength + " points are added.");
+       forecastStart.setLabelFont(new Font("SansSerif", Font.PLAIN, 12));
+       forecastStart.setLabelPaint(Color.red);
+       //  legend.setItemFont(new Font("SansSerif", Font.PLAIN, 14));
+       forecastStart.setLabel("Forecasted Data: " + forecastLength + " data points are added to historic series.");
        forecastStart.setLabelAnchor(RectangleAnchor.TOP_RIGHT);
        forecastStart.setLabelTextAnchor(TextAnchor.TOP_RIGHT);
        plot.addDomainMarker(forecastStart);
@@ -219,7 +241,7 @@ public class Chart extends ApplicationFrame {   // JFrame
 	   String descr = "Forecasting method used: " + method + info;
 	   return descr;
    }
-   
+ 
 }
 
 
